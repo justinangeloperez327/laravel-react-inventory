@@ -10,8 +10,11 @@ class Color extends Model
 {
     use HasFactory;
 
-    protected $fillable = ['name'];
-
+    protected $fillable = [
+        'name',
+        'hex'
+    ];
+    public $timestamps = false;
     public function variants(): HasMany
     {
         return $this->hasMany(Variant::class);

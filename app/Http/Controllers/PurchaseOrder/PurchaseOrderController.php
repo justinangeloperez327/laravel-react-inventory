@@ -3,10 +3,8 @@
 namespace App\Http\Controllers\PurchaseOrder;
 
 use Inertia\Inertia;
-use Inertia\Response;
 use App\Models\Supplier;
 use App\Models\PurchaseOrder;
-use App\Models\PurchaseRequisition;
 use App\Http\Controllers\Controller;
 use App\Models\PurchaseRequisitionItem;
 use App\Http\Requests\StorePurchaseOrderRequest;
@@ -19,8 +17,10 @@ class PurchaseOrderController extends Controller
      */
     public function index()
     {
+        $purchaseOrders = PurchaseOrder::paginate(10);
+
         return Inertia::render('PurchaseOrders/Index', [
-            'purchaseOrders' => PurchaseOrder::all(),
+            'purchaseOrders' => $purchaseOrders,
         ]);
     }
 

@@ -12,6 +12,8 @@ class Size extends Model
 
     protected $fillable = ['name', 'type'];
 
+    public $timestamps = false;
+
     public function variants(): HasMany
     {
         return $this->hasMany(Variant::class);

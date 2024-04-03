@@ -2,11 +2,12 @@
 
 namespace App\Http\Controllers\PurchaseRequisition;
 
-use Inertia\Inertia;
-use App\Models\PurchaseRequisition;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\StorePurchaseRequisitionRequest;
 use App\Http\Requests\UpdatePurchaseRequisitionRequest;
+use App\Models\Product;
+use App\Models\PurchaseRequisition;
+use Inertia\Inertia;
 
 class PurchaseRequisitionController extends Controller
 {
@@ -15,8 +16,10 @@ class PurchaseRequisitionController extends Controller
      */
     public function index()
     {
+        $purchaseRequisitions = PurchaseRequisition::paginate(10);
+
         return Inertia::render('PurchaseRequisitions/Index', [
-            'purchaseRequisitions' => PurchaseRequisition::all(),
+            'purchaseRequisitions' => $purchaseRequisitions,
         ]);
     }
 
@@ -25,7 +28,11 @@ class PurchaseRequisitionController extends Controller
      */
     public function create()
     {
-        return Inertia::render('PurchaseRequisitions/Create');
+        $products = Product::orderBy('name')->get();
+
+        return Inertia::render('PurchaseRequisitions/Create', [
+            'products' => $products
+        ]);
     }
 
     /**

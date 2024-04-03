@@ -1,10 +1,12 @@
 <?php
 
-namespace App\Http\Controllers;
+namespace App\Http\Controllers\Product;
 
-use App\Models\Category;
+use App\Http\Controllers\Controller;
 use App\Http\Requests\StoreCategoryRequest;
 use App\Http\Requests\UpdateCategoryRequest;
+use App\Models\Category;
+use Inertia\Inertia;
 
 class CategoryController extends Controller
 {
@@ -13,7 +15,9 @@ class CategoryController extends Controller
      */
     public function index()
     {
-        //
+        return Inertia::render('Category/Index', [
+            'categories' => Category::all()
+        ]);
     }
 
     /**
@@ -21,7 +25,7 @@ class CategoryController extends Controller
      */
     public function create()
     {
-        //
+        return Inertia::render('Category/Create');
     }
 
     /**
@@ -29,7 +33,7 @@ class CategoryController extends Controller
      */
     public function store(StoreCategoryRequest $request)
     {
-        //
+        return Category::create($request->validated());
     }
 
     /**
@@ -37,7 +41,9 @@ class CategoryController extends Controller
      */
     public function show(Category $category)
     {
-        //
+        return Inertia::render('Category/Show', [
+            'category' => $category
+        ]);
     }
 
     /**
@@ -45,7 +51,9 @@ class CategoryController extends Controller
      */
     public function edit(Category $category)
     {
-        //
+        return Inertia::render('Category/Edit', [
+            'category' => $category
+        ]);
     }
 
     /**
@@ -53,7 +61,7 @@ class CategoryController extends Controller
      */
     public function update(UpdateCategoryRequest $request, Category $category)
     {
-        //
+        return $category->update($request->validated());
     }
 
     /**
@@ -61,6 +69,6 @@ class CategoryController extends Controller
      */
     public function destroy(Category $category)
     {
-        //
+        return $category->delete();
     }
 }

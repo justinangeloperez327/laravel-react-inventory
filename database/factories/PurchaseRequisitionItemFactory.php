@@ -17,7 +17,9 @@ class PurchaseRequisitionItemFactory extends Factory
     public function definition(): array
     {
         return [
-            //
+            'quantity' => $this->faker->randomNumber(2),
+            'unit_price' => $this->faker->randomFloat(2, 0, 100),
+            'description' => $this->faker->sentence,
         ];
     }
 }

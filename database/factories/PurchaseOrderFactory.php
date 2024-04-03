@@ -17,7 +17,8 @@ class PurchaseOrderFactory extends Factory
     public function definition(): array
     {
         return [
-            //
+            'status' => $this->faker->randomElement(['pending', 'completed', 'cancelled']),
+            'total' => $this->faker->randomFloat(2, 1, 1000),
         ];
     }
 }

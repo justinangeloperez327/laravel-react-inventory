@@ -1,34 +1,86 @@
-import React, { useState } from 'react';
-import { Link } from '@inertiajs/react';
+import { Head, Link } from '@inertiajs/react';
+import { PurchaseOrder, User } from '@/types';
+
+import AuthenticatedLayout from '@/Layouts/AuthenticatedLayout';
+import DangerButton from '@/Components/DangerButton';
+import Pagination from '@/Components/Pagination';
+import PrimaryButton from '@/Components/PrimaryButton';
 import Table from '@/Components/Table';
 
 interface PurchaseOrderIndexProps {
-    purchaseOrders: any[];
+    auth: {
+        user: User;
+    };
+    purchaseOrders: {
+        data: PurchaseOrder[];
+        links: any[];
+        next_page_url: string;
+        prev_page_url: string;
+    };
 }
 
-export const PurchaseOrderIndex = ({ purchaseOrders } : PurchaseOrderIndexProps) => {
+function handleEdit(id: number): void {
+    // Implement your logic here
+    console.log(`Editing product with ID: ${id}`);
+}
+function handleDelete(id: number): void {
+    // Implement your logic here
+    console.log(`Editing product with ID: ${id}`);
+}
 
-    const columns = [
-        { header: 'PO ID', accessor: (row: { id: any; }) => row.id },
-        { header: 'Price', accessor: (row: { price: any; }) => row.price },
-    ];
+const columns = [
+    {
+        title: 'ID',
+        key: 'id',
+    },
+    {
+        title: 'Name',
+        key: 'name',
+    },
+    {
+        title: 'Price',
+        key: 'price',
+    },
+    {
+        title: 'Actions',
+        key: 'actions',
+        render: (product: PurchaseOrder) => (
+            <div>
+                <PrimaryButton onClick={() => handleEdit(product.id)}>Edit</PrimaryButton>
+                <DangerButton onClick={() => handleDelete(product.id)}>Delete</DangerButton>
+            </div>
+        ),
+    },
+]
+
+const PurchaseOrderIndex = ({ auth, purchaseOrders } : PurchaseOrderIndexProps) => {
 
     return (
         <>
-            <div className="p-4">
-                <div className="flex justify-between mb-4">
-                    <input
-                        type="text"
-                        placeholder="Search"
-                        className="border-2 border-gray-300 p-2 rounded-md"
-                    />
-                    <Link href="/orders/create" className="bg-blue-500 text-white px-4 py-2 rounded-md">Add Purchase Order</Link>
+            <AuthenticatedLayout
+                user={auth.user}
+                header={<h2 className="font-semibold text-xl text-gray-800 leading-tight">Products</h2>}
+            >
+                <Head title="Products" />
+                <div className="py-12">
+                    <div className="max-w-7xl mx-auto sm:px-6 lg:px-8">
+                        <div className="bg-white shadow-sm sm:rounded-lg">
+                            <div className="relative p-2">
+                                <Table
+                                    columns={columns}
+                                    data={purchaseOrders.data}
+                                />
+
+                                <div>
+                                    <Pagination links={purchaseOrders.links} />
+                                </div>
+                            </div>
+                    </div>
+                    </div>
                 </div>
-                <Table columns={columns} data={purchaseOrders} />
-                <div className="flex justify-center mt-4">
-                    {/* Add pagination buttons here */}
-                </div>
-            </div>
+            </AuthenticatedLayout>
         </>
     );
 };
+
+export default PurchaseOrderIndex

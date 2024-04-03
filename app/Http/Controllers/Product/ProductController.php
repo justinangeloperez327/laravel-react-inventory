@@ -9,16 +9,30 @@ use App\Models\Product;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\StoreProductRequest;
 use App\Http\Requests\UpdateProductRequest;
+use App\Models\Category;
+use Illuminate\Http\Request;
 
 class ProductController extends Controller
 {
     /**
      * Display a listing of the resource.
      */
-    public function index()
+    public function index(Request $request)
     {
+        $query = Product::query();
+
+        // Sorting
+        if ($request->has('sort_by')) {
+            $sortColumn = $request->input('sort_by');
+            $sortDirection = $request->input('sort_dir', 'asc');
+            $query->orderBy($sortColumn, $sortDirection);
+        }
+
+        // Pagination
+        $data = $query->paginate($request->input('per_page', 10));
+
         return Inertia::render('Products/Index', [
-            'products' => Product::all(),
+            'products' => $data,
         ]);
     }
 
@@ -29,10 +43,12 @@ class ProductController extends Controller
     {
         $colors = Color::all();
         $sizes = Size::all();
+        $categories = Category::all();
 
         return Inertia::render('Products/Create', [
             'colors' => $colors,
             'sizes' => $sizes,
+            'categories' => $categories,
         ]);
     }
 

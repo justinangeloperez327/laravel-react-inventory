@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers\Product;
 
+use Inertia\Inertia;
 use App\Models\Color;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\StoreColorRequest;
@@ -22,7 +23,7 @@ class ColorController extends Controller
      */
     public function create()
     {
-        //
+        return Inertia::render('Color/Create');
     }
 
     /**

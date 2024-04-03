@@ -17,7 +17,8 @@ class PurchaseRequisitionFactory extends Factory
     public function definition(): array
     {
         return [
-            //
+            'date' => $this->faker->date(),
+            'description' => $this->faker->sentence,
         ];
     }
 }

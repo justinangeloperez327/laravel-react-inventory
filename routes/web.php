@@ -1,22 +1,17 @@
 <?php
 
-use Inertia\Inertia;
-use Illuminate\Support\Facades\Route;
-use Illuminate\Foundation\Application;
-use App\Http\Controllers\CategoryController;
-use App\Http\Controllers\User\ProfileController;
+use App\Http\Controllers\Product\CategoryController;
 use App\Http\Controllers\Product\ProductController;
-use App\Http\Controllers\Supplier\SupplierController;
 use App\Http\Controllers\PurchaseOrder\PurchaseOrderController;
+use App\Http\Controllers\PurchaseRequisition\PurchaseRequisitionController;
+use App\Http\Controllers\Supplier\SupplierController;
+use App\Http\Controllers\User\ProfileController;
+use Illuminate\Support\Facades\Route;
+use Inertia\Inertia;
 
 
 Route::get('/', function () {
-    return Inertia::render('Welcome', [
-        'canLogin' => Route::has('login'),
-        'canRegister' => Route::has('register'),
-        'laravelVersion' => Application::VERSION,
-        'phpVersion' => PHP_VERSION,
-    ]);
+    return redirect()->route('login');
 });
 
 Route::get('/dashboard', function () {
@@ -31,7 +26,7 @@ Route::middleware('auth')->group(function () {
     Route::resource('products', ProductController::class);
     Route::resource('purchase-orders', PurchaseOrderController::class);
     Route::resource('categories', CategoryController::class);
-    Route::resource('purchase-orders', PurchaseOrderController::class);
+    Route::resource('purchase-requisitions', PurchaseRequisitionController::class);
     Route::resource('suppliers', SupplierController::class);
 });
 

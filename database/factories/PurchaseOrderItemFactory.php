@@ -17,7 +17,8 @@ class PurchaseOrderItemFactory extends Factory
     public function definition(): array
     {
         return [
-            //
+            'quantity' => $this->faker->numberBetween(1, 10),
+            'price' => $this->faker->randomFloat(2, 1, 1000),
         ];
     }
 }
